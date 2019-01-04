@@ -87,14 +87,14 @@ def main():
     parser.add_argument('--test-batch-size', type=int, default=1000, metavar='N',
                         help='input batch size for testing (default: 1000)')
     
-    parser.add_argument('--epochs', type=int, default=12, metavar='N',
+    parser.add_argument('--epochs', type=int, default=10, metavar='N',
                         help='number of epochs to train (default: 10)')
     
 
-    parser.add_argument('--lr', type=float, default=0.01, metavar='LR',
+    parser.add_argument('--lr', type=float, default=0.003, metavar='LR',
                         help='learning rate (default: 0.01)')
    
-    parser.add_argument('--momentum', type=float, default=0.5, metavar='M',
+    parser.add_argument('--momentum', type=float, default=0.9, metavar='M',
                         help='SGD momentum (default: 0.5)')
    
     parser.add_argument('--no-cuda', action='store_true', default=False,
@@ -116,10 +116,18 @@ def main():
 
     use_cuda = not args.no_cuda and torch.cuda.is_available()
     device = torch.device("cuda" if use_cuda else "cpu")
-  
-
+    print("device: ",device)
     model = Net().to(device)
-    optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)	
+    optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)   
+
+
+    print("#######__parameters__######")
+    print("learning rate: ", args.lr, "\nmomentum: ", args.momentum, "\nepochs: ", args.epochs)
+    print("############################")    
+    print("model:\n",model)
+    print("############################")
+    print("optimizer:\n",optimizer)
+    print("############################")
 
     # for epoch in range(2):
     for epoch in range(1, args.epochs + 1):
